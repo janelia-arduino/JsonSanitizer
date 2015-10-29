@@ -10,6 +10,13 @@ License:
 
     BSD
 
+This library uses Serge Zaitsev's excellent
+[jsmn code](https://github.com/zserge/jsmn) and some code from Benoît
+Blanchon's [ArduinoJson](https://github.com/bblanchon/ArduinoJson) to
+sanitize erroneous, but interpretable JSON strings.
+
+Valid compact JSON is unchanged.
+
 ```json
 json_valid:
 {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
@@ -17,12 +24,17 @@ sanitized:
 {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
 ```
 
+Unquoted strings get quoted and spaces between array elements get converted to commas.
+
 ```json
 json_partial_valid:
-{"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080,2.302038]}
+{"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
 sanitized:
 {"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
 ```
+
+The root of every JSON string should either be an object or array. The
+outermost brackets will be added to a JSON array missing them.
 
 ```json
 json_unsanitized_array:
@@ -31,6 +43,9 @@ sanitized:
 ["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
 ```
 
+The outermost braces will be added to a JSON array missing them, if
+colons separate keys from values and commas separate key/value pairs.
+
 ```json
 json_unsanitized_object:
   server : example.com, post: 80, message: "hello world"
@@ -38,11 +53,15 @@ sanitized:
 {"server":"example.com","post":80,"message":"hello world"}
 ```
 
+Some JSON strings are too ambiguous to be sanitized. Without commas
+separating the key/value pairs, the parser gets confused and does not
+sanitize properly.
+
 ```json
-json_valid_request:
-["setSerialNumber","serial_number","?"]
-sanitized:
-["setSerialNumber","serial_number","?"]
+json_unsanitizable_object:
+  server : example.com post: 80 message: "hello world"
+unsanitized:
+{"server":"example.com"}{"server":"example.com"}{"server":}
 ```
 
 [Usage Examples](./examples)
