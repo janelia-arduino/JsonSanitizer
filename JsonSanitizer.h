@@ -18,6 +18,9 @@ class JsonSanitizer
 public:
   JsonSanitizer(size_t token_count=32);
   void sanitize(char json[], size_t size);
+  bool firstCharIsValidJsonArray(char *json);
+  bool firstCharIsValidJsonObject(char *json);
+  bool firstCharIsValidJson(char *json);
 private:
   char *skipCStyleComment(char *json);
   char *skipCppStyleComment(char *json);

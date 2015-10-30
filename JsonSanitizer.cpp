@@ -27,8 +27,7 @@ void JsonSanitizer::sanitize(char json[], size_t size)
   char source[size];
 
   // Fill source, add [] or {} if necessary
-  char first_char = firstChar(json);
-  if ((first_char == '[') || (first_char == '{'))
+  if (firstCharIsValidJson(json))
   {
     memcpy(source,json_trimmed,json_length+1);
   }
@@ -72,6 +71,24 @@ void JsonSanitizer::sanitize(char json[], size_t size)
     tokens_printed_total += tokens_printed;
   }
   json[json_index_] = 0;
+}
+
+bool JsonSanitizer::firstCharIsValidJsonArray(char *json)
+{
+  char first_char = firstChar(json);
+  return (first_char == '[');
+}
+
+bool JsonSanitizer::firstCharIsValidJsonObject(char *json)
+{
+  char first_char = firstChar(json);
+  return (first_char == '{');
+}
+
+bool JsonSanitizer::firstCharIsValidJson(char *json)
+{
+  char first_char = firstChar(json);
+  return ((first_char == '[') || (first_char == '{'));
 }
 
 char *JsonSanitizer::skipCStyleComment(char *json)
