@@ -51,7 +51,6 @@ void JsonSanitizer::sanitize(char json[], size_t size)
     source[json_length] = 0;
   }
 
-  size_t i;
   size_t r;
   jsmn_parser p;
   jsmntok_t tok[TOKEN_COUNT_];
@@ -198,9 +197,8 @@ void JsonSanitizer::writeString(char *json, char *source, jsmntok_t *t)
 
 size_t JsonSanitizer::writeTokensToJson(char *json, char *source, jsmntok_t *t, size_t count)
 {
-  size_t i, j, k;
+  int i,j;
   if (count == 0) return 0;
-  size_t bytes_written = 0;
   if (t->type == JSMN_PRIMITIVE)
   {
     char *primative = source+t->start;
