@@ -57,7 +57,6 @@ void JsonSanitizer::sanitize(char json[], size_t size)
 
   jsmn_init(&p);
   r = jsmn_parse(&p, source, json_length, tok, sizeof(tok)/sizeof(tok[0]));
-  Serial << "r = " << r << "\n";
   if (r < 0) return;
   if (tok->type == JSMN_PRIMITIVE) return;
   size_t tokens_printed_total = 0;
