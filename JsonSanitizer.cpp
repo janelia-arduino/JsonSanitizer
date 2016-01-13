@@ -59,7 +59,7 @@ void JsonSanitizer::sanitize(char json[], size_t size)
   r = jsmn_parse(&p, source, json_length, tok, sizeof(tok)/sizeof(tok[0]));
   if (r < 0) return;
   if (tok->type == JSMN_PRIMITIVE) return;
-  size_t tokens_printed_total = 0;
+  int tokens_printed_total = 0;
   size_t count = p.toknext;
   json_index_ = 0;
   json[json_index_] = 0;
