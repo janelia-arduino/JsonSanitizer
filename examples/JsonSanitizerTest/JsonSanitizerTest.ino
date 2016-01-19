@@ -1,6 +1,7 @@
 #include "Arduino.h"
-#include "Streaming.h"
+#include "JsmnStream.h"
 #include "JsonSanitizer.h"
+#include "Streaming.h"
 
 
 const unsigned int BAUDRATE = 9600;
@@ -26,7 +27,7 @@ void loop()
   Serial << "json_valid:" << endl;
   Serial << json_valid << endl;
   strcpy(buffer,json_valid);
-  sanitizer.sanitize(buffer,BUFFER_SIZE);
+  sanitizer.sanitizeBuffer(buffer);
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -35,7 +36,7 @@ void loop()
   Serial << "json_partial_valid:" << endl;
   Serial << json_partial_valid << endl;
   strcpy(buffer,json_partial_valid);
-  sanitizer.sanitize(buffer,BUFFER_SIZE);
+  sanitizer.sanitizeBuffer(buffer);
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -44,7 +45,7 @@ void loop()
   Serial << "json_unsanitized_array:" << endl;
   Serial << json_unsanitized_array << endl;
   strcpy(buffer,json_unsanitized_array);
-  sanitizer.sanitize(buffer,BUFFER_SIZE);
+  sanitizer.sanitizeBuffer(buffer);
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -53,7 +54,7 @@ void loop()
   Serial << "json_unsanitized_object:" << endl;
   Serial << json_unsanitized_object << endl;
   strcpy(buffer,json_unsanitized_object);
-  sanitizer.sanitize(buffer,BUFFER_SIZE);
+  sanitizer.sanitizeBuffer(buffer);
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -62,7 +63,7 @@ void loop()
   Serial << "json_unsanitizable_object:" << endl;
   Serial << json_unsanitizable_object << endl;
   strcpy(buffer,json_unsanitizable_object);
-  sanitizer.sanitize(buffer,BUFFER_SIZE);
+  sanitizer.sanitizeBuffer(buffer);
   Serial << "unsanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;

@@ -8,16 +8,16 @@
 #ifndef _JSON_SANITIZER_H_
 #define _JSON_SANITIZER_H_
 #include "Arduino.h"
+#include "JsmnStream.h"
 #include "Streaming.h"
-
-#include "utility/jsmn.h"
 
 
 class JsonSanitizer
 {
 public:
   JsonSanitizer(size_t token_count=32);
-  void sanitize(char json[], size_t size);
+  template <size_t BUFFER_SIZE>
+  void sanitizeBuffer(char (&json)[BUFFER_SIZE]);
   bool firstCharIsValidJsonArray(char *json);
   bool firstCharIsValidJsonObject(char *json);
   bool firstCharIsValidJson(char *json);
@@ -35,4 +35,6 @@ private:
   const size_t TOKEN_COUNT_;
   size_t json_index_;
 };
+#include "JsonSanitizerDefinitions.h"
+
 #endif

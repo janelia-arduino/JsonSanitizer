@@ -1,3 +1,4 @@
+#include "JsmnStream.h"
 #include "JsonSanitizer.h"
 #include "ArduinoJson.h"
 #include "Streaming.h"
