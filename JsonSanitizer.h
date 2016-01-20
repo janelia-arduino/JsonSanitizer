@@ -17,7 +17,7 @@ class JsonSanitizer
 public:
   JsonSanitizer();
   template <size_t TOKEN_COUNT, size_t BUFFER_SIZE>
-  void sanitizeBuffer(char (&json)[BUFFER_SIZE]);
+  void sanitizeBuffer(char (&json_buffer)[BUFFER_SIZE]);
   bool firstCharIsValidJsonArray(char *json);
   bool firstCharIsValidJsonObject(char *json);
   bool firstCharIsValidJson(char *json);
