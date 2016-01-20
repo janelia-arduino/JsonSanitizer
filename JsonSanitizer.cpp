@@ -8,8 +8,7 @@
 #include "JsonSanitizer.h"
 
 
-JsonSanitizer::JsonSanitizer(size_t token_count) :
-  TOKEN_COUNT_(token_count)
+JsonSanitizer::JsonSanitizer()
 {
 }
 
@@ -47,7 +46,10 @@ char *JsonSanitizer::skipCppStyleComment(char *json)
   json += 2;
   for (;;)
   {
-    if (json[0] == '\0' || json[0] == '\n') return json;
+    if (json[0] == '[' || json[0] == '{' || json[0] == '\n' || json[0] == '\0')
+    {
+      return json;
+    }
     json++;
   }
 }
@@ -120,14 +122,14 @@ bool JsonSanitizer::isNumber(char c)
   return isInRange(c, '0', '9') || c == '-' || c == '.';
 }
 
-void JsonSanitizer::writePrimative(char *json, char * source, jsmntok_t *t)
+void JsonSanitizer::writePrimative(char *json, char * source, JsmnStream::jsmntok_t *t)
 {
   size_t str_len = t->end - t->start;
   memcpy(json+json_index_,source+t->start,str_len);
   json_index_ += str_len;
 }
 
-void JsonSanitizer::writeString(char *json, char *source, jsmntok_t *t)
+void JsonSanitizer::writeString(char *json, char *source, JsmnStream::jsmntok_t *t)
 {
   size_t str_len = t->end - t->start;
   json[json_index_] = '\"';
@@ -136,11 +138,11 @@ void JsonSanitizer::writeString(char *json, char *source, jsmntok_t *t)
   json_index_ += str_len+2;
 }
 
-size_t JsonSanitizer::writeTokensToJson(char *json, char *source, jsmntok_t *t, size_t count)
+size_t JsonSanitizer::writeTokensToJson(char *json, char *source, JsmnStream::jsmntok_t *t, size_t count)
 {
   int i,j;
   if (count == 0) return 0;
-  if (t->type == JSMN_PRIMITIVE)
+  if (t->type == JsmnStream::JSMN_PRIMITIVE)
   {
     char *primative = source+t->start;
     if ((memcmp(primative,"null",4) == 0) ||
@@ -156,12 +158,12 @@ size_t JsonSanitizer::writeTokensToJson(char *json, char *source, jsmntok_t *t, 
     }
     return 1;
   }
-  else if (t->type == JSMN_STRING)
+  else if (t->type == JsmnStream::JSMN_STRING)
   {
     writeString(json,source,t);
     return 1;
   }
-  else if (t->type == JSMN_OBJECT)
+  else if (t->type == JsmnStream::JSMN_OBJECT)
   {
     json[json_index_++] = '{';
     j = 0;
@@ -183,7 +185,7 @@ size_t JsonSanitizer::writeTokensToJson(char *json, char *source, jsmntok_t *t, 
     }
     return j+1;
   }
-  else if (t->type == JSMN_ARRAY)
+  else if (t->type == JsmnStream::JSMN_ARRAY)
   {
     j = 0;
     json[json_index_++] = '[';

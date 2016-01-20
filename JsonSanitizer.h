@@ -15,8 +15,8 @@
 class JsonSanitizer
 {
 public:
-  JsonSanitizer(size_t token_count=32);
-  template <size_t BUFFER_SIZE>
+  JsonSanitizer();
+  template <size_t TOKEN_COUNT, size_t BUFFER_SIZE>
   void sanitizeBuffer(char (&json)[BUFFER_SIZE]);
   bool firstCharIsValidJsonArray(char *json);
   bool firstCharIsValidJsonObject(char *json);
@@ -29,10 +29,9 @@ private:
   bool colonInFirstTwoWords(char* json);
   bool isInRange(char c, char min, char max);
   bool isNumber(char c);
-  void writePrimative(char *json, char *source, jsmntok_t *t);
-  void writeString(char *json, char *source, jsmntok_t *t);
-  size_t writeTokensToJson(char *json, char *source, jsmntok_t *t, size_t count);
-  const size_t TOKEN_COUNT_;
+  void writePrimative(char *json, char *source, JsmnStream::jsmntok_t *t);
+  void writeString(char *json, char *source, JsmnStream::jsmntok_t *t);
+  size_t writeTokensToJson(char *json, char *source, JsmnStream::jsmntok_t *t, size_t count);
   size_t json_index_;
 };
 #include "JsonSanitizerDefinitions.h"
