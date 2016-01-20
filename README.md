@@ -64,5 +64,24 @@ unsanitized:
 {"server":"example.com"}{"server":"example.com"}{"server":}
 ```
 
+C++ style comments are removed when preceding JSON wrapped in brackets
+or braces.
+
+```json
+json_partial_valid_with_cpp_comments:
+// this is a c++ style comment {"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
+sanitized:
+{"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
+```
+
+C style comments are removed even when preceding unsanitized JSON.
+
+```json
+json_unsanitized_with_c_comments:
+/* this is a c style comment */ ? test, 1  ??   null true [1,2 3] "nice string" weird_\"string
+sanitized:
+["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
+```
+
 [Usage Examples](./examples)
 
