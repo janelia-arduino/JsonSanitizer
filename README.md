@@ -10,7 +10,7 @@ License:
 
     BSD
 
-This library uses Serge Zaitsev's excellent
+This library uses Serge Zaitsev's
 [jsmn code](https://github.com/zserge/jsmn) and some code from Benoît
 Blanchon's [ArduinoJson](https://github.com/bblanchon/ArduinoJson) to
 sanitize erroneous, but interpretable JSON strings.
