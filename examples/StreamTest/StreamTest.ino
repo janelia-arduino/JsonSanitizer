@@ -14,7 +14,9 @@ char json_partial_valid_with_cpp_comments[] = "// this is a c++ style comment {\
 char json_unsanitized_with_c_comments[] = "/* this is a c style comment */ ? test, 1  ??   null true [1,2 3] \"nice string\" weird_\\\"string";
 const unsigned int BUFFER_SIZE = 257;
 char buffer[BUFFER_SIZE];
-const unsigned int TOKEN_COUNT = 32;
+const unsigned int TOKEN_COUNT_MAX = 32;
+JsonSanitizer<TOKEN_COUNT_MAX> sanitizer;
+char *json;
 
 void setup()
 {
@@ -24,12 +26,15 @@ void setup()
 
 void loop()
 {
-  JsonSanitizer sanitizer;
-
   Serial << "json_valid:" << endl;
   Serial << json_valid << endl;
-  strcpy(buffer,json_valid);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_valid;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -37,8 +42,13 @@ void loop()
 
   Serial << "json_partial_valid:" << endl;
   Serial << json_partial_valid << endl;
-  strcpy(buffer,json_partial_valid);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_partial_valid;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -46,8 +56,13 @@ void loop()
 
   Serial << "json_unsanitized_array:" << endl;
   Serial << json_unsanitized_array << endl;
-  strcpy(buffer,json_unsanitized_array);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_unsanitized_array;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -55,8 +70,13 @@ void loop()
 
   Serial << "json_unsanitized_object:" << endl;
   Serial << json_unsanitized_object << endl;
-  strcpy(buffer,json_unsanitized_object);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_unsanitized_object;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -64,8 +84,13 @@ void loop()
 
   Serial << "json_unsanitizable_object:" << endl;
   Serial << json_unsanitizable_object << endl;
-  strcpy(buffer,json_unsanitizable_object);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_unsanitizable_object;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "unsanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -73,8 +98,13 @@ void loop()
 
   Serial << "json_partial_valid_with_cpp_comments:" << endl;
   Serial << json_partial_valid_with_cpp_comments << endl;
-  strcpy(buffer,json_partial_valid_with_cpp_comments);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_partial_valid_with_cpp_comments;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -82,8 +112,13 @@ void loop()
 
   Serial << "json_unsanitized_with_c_comments:" << endl;
   Serial << json_unsanitized_with_c_comments << endl;
-  strcpy(buffer,json_unsanitized_with_c_comments);
-  sanitizer.sanitizeBuffer<TOKEN_COUNT>(buffer);
+  json = json_unsanitized_with_c_comments;
+  sanitizer.reset();
+  for (int i=0; i<strlen(json); ++i)
+  {
+    const char c = json[i];
+    sanitizer.sanitizeCharIntoBuffer(c,buffer);
+  }
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;

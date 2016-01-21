@@ -12,16 +12,30 @@
 #include "Streaming.h"
 
 
+template <size_t TOKEN_COUNT_MAX>
 class JsonSanitizer
 {
 public:
+  enum States
+    {
+      OUTSIDE_JSON,
+    };
   JsonSanitizer();
-  template <size_t TOKEN_COUNT, size_t BUFFER_SIZE>
+  void reset();
+  template <size_t BUFFER_SIZE>
+  void sanitizeCharIntoBuffer(const char c, char (&buffer)[BUFFER_SIZE]);
+  // template <size_t BUFFER_SIZE>
+  // void terminateBuffer(char (&buffer)[BUFFER_SIZE]);
+  template <size_t BUFFER_SIZE>
   void sanitizeBuffer(char (&json_buffer)[BUFFER_SIZE]);
   bool firstCharIsValidJsonArray(char *json);
   bool firstCharIsValidJsonObject(char *json);
   bool firstCharIsValidJson(char *json);
 private:
+  JsmnStream::jsmntok_t tokens_[TOKEN_COUNT_MAX];
+  JsmnStream jsmn_stream_;
+  unsigned int buffer_pos_;
+  States state_;
   char *skipCStyleComment(char *json);
   char *skipCppStyleComment(char *json);
   char *skipSpacesAndComments(char *json);

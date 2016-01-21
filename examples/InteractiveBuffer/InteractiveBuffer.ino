@@ -7,10 +7,11 @@ namespace constants
 {
 enum{STRING_LENGTH_REQUEST=257};
 const char eol = '\n';
-const unsigned int TOKEN_COUNT = 32;
+const unsigned int TOKEN_COUNT_MAX = 32;
 }
 
 char request[constants::STRING_LENGTH_REQUEST];
+JsonSanitizer<constants::TOKEN_COUNT_MAX> sanitizer;
 
 void setup()
 {
@@ -28,11 +29,11 @@ void loop() {
     request[request_length] = 0;
     Serial << "received:" << endl;
     Serial << request << endl;
-    JsonSanitizer sanitizer(constants::TOKEN_COUNT);
     // Must sanitize all requests, even though it adds delay for valid requests
     // ArduinoJson modifies request so cannot use for testing without making copy
     // If making copy, might as well sanitize
-    sanitizer.sanitize(request,constants::STRING_LENGTH_REQUEST);
+    sanitizer.reset();
+    sanitizer.sanitizeBuffer(request);
     Serial << "sanitized:" << endl;
     Serial << request << endl;
     StaticJsonBuffer<constants::STRING_LENGTH_REQUEST> json_buffer;
