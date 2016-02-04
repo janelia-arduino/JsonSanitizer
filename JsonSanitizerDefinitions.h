@@ -28,12 +28,130 @@ template <size_t TOKEN_COUNT_MAX>
 template <size_t BUFFER_SIZE>
 void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (&buffer)[BUFFER_SIZE])
 {
-  switch (char_parse_result_)
-  {
-  }
   if (buffer_pos_ < (BUFFER_SIZE-1))
   {
-    buffer[buffer_pos_++] = c;
+    int parse_result = jsmn_stream_.parseChar(c);
+    // switch (state_)
+    // {
+    //   case OUTSIDE_JSON:
+    //     switch (parse_result)
+    //     {
+    //       case JsmnStream::OBJECT_BEGIN:
+    //       case JsmnStream::ARRAY_BEGIN:
+    //         buffer[buffer_pos_++] = c;
+    //         state_ = INSIDE_JSON;
+    //         break;
+    //     }
+    //     break;
+    // }
+  //   switch (parse_result)
+  //   {
+  //     case JsmnStream::UNKNOWN:
+  //       break;
+  //     case JsmnStream::OBJECT_BEGIN:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::OBJECT_END:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::ARRAY_BEGIN:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::ARRAY_END:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::STRING_BEGIN:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::STRING_END:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::STRING_BACKSLASH:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::STRING_CHAR:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::WHITESPACE:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::KEY_END:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::VALUE_END:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::PRIMATIVE_BEGIN:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //     case JsmnStream::PRIMATIVE_CHAR:
+  //       switch (state_)
+  //       {
+  //         case OUTSIDE_JSON:
+  //           buffer[buffer_pos_++] = c;
+  //           break;
+  //       }
+  //       break;
+  //   }
     buffer[buffer_pos_] = '\0';
   }
 }

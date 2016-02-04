@@ -19,6 +19,7 @@ public:
   enum States
     {
       OUTSIDE_JSON,
+      INSIDE_JSON,
     };
   JsonSanitizer();
   void reset();
