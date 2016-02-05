@@ -10,6 +10,7 @@
 #include "Arduino.h"
 #include "JsmnStream.h"
 #include "Streaming.h"
+#include "utility/Constants.h"
 
 
 template <size_t TOKEN_COUNT_MAX>
@@ -19,7 +20,12 @@ public:
   enum States
     {
       OUTSIDE_JSON,
+      INSIDE_FORWARD_SLASH,
+      INSIDE_C_COMMENT,
+      INSIDE_CPP_COMMENT,
+      INSIDE_C_COMMENT_ASTERISK,
       INSIDE_JSON,
+      INSIDE_UNKNOWN_JSON_STRING,
     };
   JsonSanitizer();
   void reset();
@@ -35,6 +41,7 @@ public:
 private:
   JsmnStream::jsmntok_t tokens_[TOKEN_COUNT_MAX];
   JsmnStream jsmn_stream_;
+  int parse_result_;
   unsigned int buffer_pos_;
   States state_;
   char *skipCStyleComment(char *json);
