@@ -10,7 +10,6 @@
 #include "Arduino.h"
 #include "JsmnStream.h"
 #include "Streaming.h"
-#include "utility/Constants.h"
 
 
 template <size_t TOKEN_COUNT_MAX>

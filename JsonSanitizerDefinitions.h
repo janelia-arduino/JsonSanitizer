@@ -36,21 +36,21 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
         switch (c)
         {
           // Skip whitespace
-          case constants::SPACE:
-          case constants::TAB:
-          case constants::CARRIAGE_RETURN:
-          case constants::NEWLINE:
+          case ' ':
+          case '\t':
+          case '\r':
+          case '\n':
             break;
-          case constants::FORWARD_SLASH:
+          case '/':
             state_ = INSIDE_FORWARD_SLASH;
             break;
-          case constants::OPEN_BRACE:
-          case constants::OPEN_BRACKET:
+          case '{':
+          case '[':
             parse_result_ = jsmn_stream_.parseChar(c);
             buffer[buffer_pos_++] = c;
             state_ = INSIDE_JSON;
             break;
-          case constants::DOUBLE_QUOTE:
+          case '\"':
             buffer[++buffer_pos_] = c;
             state_ = INSIDE_UNKNOWN_JSON_STRING;
           default:
@@ -60,10 +60,10 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_FORWARD_SLASH:
         switch (c)
         {
-          case constants::ASTERISK:
+          case '*':
             state_ = INSIDE_C_COMMENT;
             break;
-          case constants::FORWARD_SLASH:
+          case '/':
             state_ = INSIDE_CPP_COMMENT;
             break;
           default:
@@ -73,7 +73,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_C_COMMENT:
         switch (c)
         {
-          case constants::ASTERISK:
+          case '*':
             state_ = INSIDE_C_COMMENT_ASTERISK;
             break;
           default:
@@ -83,7 +83,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_CPP_COMMENT:
         switch (c)
         {
-          case constants::ASTERISK:
+          case '*':
             state_ = INSIDE_C_COMMENT_ASTERISK;
             break;
           default:
@@ -93,7 +93,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_C_COMMENT_ASTERISK:
         switch (c)
         {
-          case constants::FORWARD_SLASH:
+          case '/':
             state_ = OUTSIDE_JSON;
             break;
           default:
