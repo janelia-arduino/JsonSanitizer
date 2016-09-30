@@ -43,7 +43,7 @@ sanitized:
 ["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
 ```
 
-The outermost braces will be added to a JSON array missing them, if
+The outermost braces will be added to a JSON object missing them, if
 colons separate keys from values and commas separate key/value pairs.
 
 ```json
@@ -53,9 +53,9 @@ sanitized:
 {"server":"example.com","post":80,"message":"hello world"}
 ```
 
-Some JSON strings are too ambiguous to be sanitized. Without commas
-separating the key/value pairs, the parser gets confused and does not
-sanitize properly.
+Some JSON strings are too ambiguous to be sanitized correctly. Without
+commas separating the key/value pairs, the parser gets confused and
+does not sanitize properly.
 
 ```json
 json_unsanitizable_object:
