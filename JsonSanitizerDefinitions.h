@@ -36,21 +36,21 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
         switch (c)
         {
           // Skip whitespace
-          case constants::space:
-          case constatns::tab:
-          case constants::carriage_return:
-          case constants::newline:
+          case constants::SPACE:
+          case constants::TAB:
+          case constants::CARRIAGE_RETURN:
+          case constants::NEWLINE:
             break;
-          case constants::forward_slash:
+          case constants::FORWARD_SLASH:
             state_ = INSIDE_FORWARD_SLASH;
             break;
-          case constants::open_brace:
-          case constants::open_bracket:
+          case constants::OPEN_BRACE:
+          case constants::OPEN_BRACKET:
             parse_result_ = jsmn_stream_.parseChar(c);
             buffer[buffer_pos_++] = c;
             state_ = INSIDE_JSON;
             break;
-          case constants::double_quote:
+          case constants::DOUBLE_QUOTE:
             buffer[++buffer_pos_] = c;
             state_ = INSIDE_UNKNOWN_JSON_STRING;
           default:
@@ -60,10 +60,10 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_FORWARD_SLASH:
         switch (c)
         {
-          case constants::asterisk:
+          case constants::ASTERISK:
             state_ = INSIDE_C_COMMENT;
             break;
-          case constants::forward_slash:
+          case constants::FORWARD_SLASH:
             state_ = INSIDE_CPP_COMMENT;
             break;
           default:
@@ -73,7 +73,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_C_COMMENT:
         switch (c)
         {
-          case constants::asterisk:
+          case constants::ASTERISK:
             state_ = INSIDE_C_COMMENT_ASTERISK;
             break;
           default:
@@ -83,7 +83,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_CPP_COMMENT:
         switch (c)
         {
-          case constants::asterisk:
+          case constants::ASTERISK:
             state_ = INSIDE_C_COMMENT_ASTERISK;
             break;
           default:
@@ -93,7 +93,7 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
       case INSIDE_C_COMMENT_ASTERISK:
         switch (c)
         {
-          case constants::forward_slash:
+          case constants::FORWARD_SLASH:
             state_ = OUTSIDE_JSON;
             break;
           default:
@@ -102,114 +102,6 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
         }
         break;
     }
-    //   switch (parse_result)
-    //   {
-    //     case JsmnStream::UNKNOWN:
-    //       break;
-    //     case JsmnStream::OBJECT_BEGIN:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::OBJECT_END:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::ARRAY_BEGIN:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::ARRAY_END:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::STRING_BEGIN:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::STRING_END:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::STRING_BACKSLASH:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::STRING_CHAR:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::WHITESPACE:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::KEY_END:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::VALUE_END:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::PRIMATIVE_BEGIN:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //     case JsmnStream::PRIMATIVE_CHAR:
-    //       switch (state_)
-    //       {
-    //         case OUTSIDE_JSON:
-    //           buffer[buffer_pos_++] = c;
-    //           break;
-    //       }
-    //       break;
-    //   }
     buffer[buffer_pos_] = '\0';
   }
 }

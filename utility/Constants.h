@@ -12,16 +12,19 @@
 
 namespace constants
 {
-extern const char space;
-extern const char tab;
-extern const char carriage_return;
-extern const char newline;
-extern const char forward_slash;
-extern const char asterisk;
-extern const char open_brace;
-extern const char close_brace;
-extern const char open_bracket;
-extern const char close_bracket;
-extern const char double_quote;
+enum
+  {
+    SPACE = (int)' ',
+    TAB = (int)'\t',
+    CARRIAGE_RETURN = (int)'\r',
+    NEWLINE = (int)'\n',
+    FORWARD_SLASH = (int)'/',
+    ASTERISK = (int)'/',
+    OPEN_BRACE = (int)'{',
+    CLOSE_BRACE = (int)'}',
+    OPEN_BRACKET = (int)'[',
+    CLOSE_BRACKET = (int)']',
+    DOUBLE_QUOTE = (int)'\"',
+  };
 }
 #endif
