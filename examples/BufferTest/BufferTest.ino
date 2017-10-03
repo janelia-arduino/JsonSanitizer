@@ -1,10 +1,10 @@
-#include "Arduino.h"
-#include "JsmnStream.h"
-#include "JsonSanitizer.h"
-#include "Streaming.h"
+#include <Arduino.h>
+#include <JsmnStream.h>
+#include <JsonSanitizer.h>
+#include <Streaming.h>
 
 
-const unsigned int BAUDRATE = 9600;
+const long BAUDRATE = 115200;
 char json_valid[] = "{\"sensor\":\"gps\",\"time\":1351824120,\"data\":[48.756080,2.302038]}";
 char json_partial_valid[] = "{\"sensor\":gps,test:null,truth:true,method:?,\"time\":1351824120,\"data\":[48.756080 2.302038]}";
 char json_unsanitized_array[] = "  ? test, 1  ??   null true [1,2 3] \"nice string\" weird_\\\"string";

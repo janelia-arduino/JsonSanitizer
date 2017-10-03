@@ -1,7 +1,7 @@
-#include "JsmnStream.h"
-#include "JsonSanitizer.h"
-#include "ArduinoJson.h"
-#include "Streaming.h"
+#include <JsmnStream.h>
+#include <JsonSanitizer.h>
+#include <ArduinoJson.h>
+#include <Streaming.h>
 
 namespace constants
 {
@@ -15,7 +15,7 @@ JsonSanitizer<constants::TOKEN_COUNT_MAX> sanitizer;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {

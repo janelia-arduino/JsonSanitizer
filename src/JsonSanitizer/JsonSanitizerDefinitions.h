@@ -101,6 +101,10 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (
             break;
         }
         break;
+      case INSIDE_JSON:
+        break;
+      case INSIDE_UNKNOWN_JSON_STRING:
+        break;
     }
     buffer[buffer_pos_] = '\0';
   }

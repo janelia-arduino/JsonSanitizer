@@ -7,9 +7,8 @@
 // ----------------------------------------------------------------------------
 #ifndef _JSON_SANITIZER_H_
 #define _JSON_SANITIZER_H_
-#include "Arduino.h"
-#include "JsmnStream.h"
-#include "Streaming.h"
+#include <Arduino.h>
+#include <JsmnStream.h>
 
 
 template <size_t TOKEN_COUNT_MAX>
@@ -55,6 +54,6 @@ private:
   size_t writeTokensToJson(char *json, char *source, JsmnStream::jsmntok_t *t, size_t count);
   size_t json_index_;
 };
-#include "JsonSanitizerDefinitions.h"
+#include "JsonSanitizer/JsonSanitizerDefinitions.h"
 
 #endif

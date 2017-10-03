@@ -1,10 +1,10 @@
-#include "Arduino.h"
-#include "JsmnStream.h"
-#include "JsonSanitizer.h"
-#include "Streaming.h"
+#include <Arduino.h>
+#include <JsmnStream.h>
+#include <JsonSanitizer.h>
+#include <Streaming.h>
 
 
-const unsigned int BAUDRATE = 9600;
+const long BAUDRATE = 115200;
 char json_valid[] = "{\"sensor\":\"gps\",\"time\":1351824120,\"data\":[48.756080,2.302038]}";
 char json_partial_valid[] = "{\"sensor\":gps,test:null,truth:true,method:?,\"time\":1351824120,\"data\":[48.756080 2.302038]}";
 char json_unsanitized_array[] = "  ? test, 1  ??   null true [1,2 3] \"nice string\" weird_\\\"string";
@@ -30,11 +30,15 @@ void loop()
   Serial << json_valid << endl;
   json = json_valid;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  Serial << "strlen(json) = " << strlen(json) << endl;
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
+    Serial << "json[i] = " << json[i] << endl;
+    Serial << "buffer[i] = " << buffer[i] << endl;
   }
+  Serial << "strlen(buffer) = " << strlen(buffer) << endl;
   Serial << "sanitized:" << endl;
   Serial << buffer << endl;
   Serial << endl;
@@ -44,7 +48,7 @@ void loop()
   Serial << json_partial_valid << endl;
   json = json_partial_valid;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
@@ -58,7 +62,7 @@ void loop()
   Serial << json_unsanitized_array << endl;
   json = json_unsanitized_array;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
@@ -72,7 +76,7 @@ void loop()
   Serial << json_unsanitized_object << endl;
   json = json_unsanitized_object;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
@@ -86,7 +90,7 @@ void loop()
   Serial << json_unsanitizable_object << endl;
   json = json_unsanitizable_object;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
@@ -100,7 +104,7 @@ void loop()
   Serial << json_partial_valid_with_cpp_comments << endl;
   json = json_partial_valid_with_cpp_comments;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
@@ -114,7 +118,7 @@ void loop()
   Serial << json_unsanitized_with_c_comments << endl;
   json = json_unsanitized_with_c_comments;
   sanitizer.reset();
-  for (int i=0; i<strlen(json); ++i)
+  for (size_t i=0; i<strlen(json); ++i)
   {
     const char c = json[i];
     sanitizer.sanitizeCharIntoBuffer(c,buffer);
