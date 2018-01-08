@@ -4,7 +4,7 @@
 #include <Streaming.h>
 
 
-const long BAUDRATE = 115200;
+const long BAUD = 115200;
 char json_valid[] = "{\"sensor\":\"gps\",\"time\":1351824120,\"data\":[48.756080,2.302038]}";
 char json_partial_valid[] = "{\"sensor\":gps,test:null,truth:true,method:?,\"time\":1351824120,\"data\":[48.756080 2.302038]}";
 char json_unsanitized_array[] = "  ? test, 1  ??   null true [1,2 3] \"nice string\" weird_\\\"string";
@@ -19,7 +19,7 @@ JsonSanitizer<TOKEN_COUNT_MAX> sanitizer;
 
 void setup()
 {
-  Serial.begin(BAUDRATE);
+  Serial.begin(BAUD);
 }
 
 
