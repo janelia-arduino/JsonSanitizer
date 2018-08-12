@@ -3,7 +3,7 @@
 //
 //
 // Authors:
-// Peter Polidoro polidorop@janelia.hhmi.org
+// Peter Polidoro peterpolidoro@gmail.com
 // ----------------------------------------------------------------------------
 #ifndef JSON_SANITIZER_DEFINITIONS_H
 #define JSON_SANITIZER_DEFINITIONS_H
