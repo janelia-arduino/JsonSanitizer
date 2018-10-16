@@ -14,39 +14,39 @@
   Valid compact JSON is unchanged.
 
   #+BEGIN_SRC js
-json_valid:
-{"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
-sanitized:
-{"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
+    json_valid:
+    {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
+    sanitized:
+    {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
   #+END_SRC
 
   Unquoted strings get quoted and spaces between array elements get converted to commas.
 
   #+BEGIN_SRC js
-json_partial_valid:
-{"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
-sanitized:
-{"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
+    json_partial_valid:
+    {"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
+    sanitized:
+    {"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
   #+END_SRC
 
   The root of every JSON string should either be an object or array. The
   outermost brackets will be added to a JSON array missing them.
 
   #+BEGIN_SRC js
-json_unsanitized_array:
-   ? test, 1  ??   null true [1,2 3] "nice string" weird_\"string
-sanitized:
-["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
+    json_unsanitized_array:
+      ? test, 1  ??   null true [1,2 3] "nice string" weird_\"string
+    sanitized:
+      ["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
   #+END_SRC
 
   The outermost braces will be added to a JSON object missing them, if
   colons separate keys from values and commas separate key/value pairs.
 
   #+BEGIN_SRC js
-json_unsanitized_object:
-  server : example.com, post: 80, message: "hello world"
-sanitized:
-{"server":"example.com","post":80,"message":"hello world"}
+    json_unsanitized_object:
+    server : example.com, post: 80, message: "hello world"
+    sanitized:
+    {"server":"example.com","post":80,"message":"hello world"}
   #+END_SRC
 
   Some JSON strings are too ambiguous to be sanitized correctly. Without
@@ -54,29 +54,29 @@ sanitized:
   does not sanitize properly.
 
   #+BEGIN_SRC js
-json_unsanitizable_object:
-  server : example.com post: 80 message: "hello world"
-unsanitized:
-{"server":"example.com"}{"server":"example.com"}{"server":}
+    json_unsanitizable_object:
+    server : example.com post: 80 message: "hello world"
+    unsanitized:
+    {"server":"example.com"}{"server":"example.com"}{"server":}
   #+END_SRC
 
   C++ style comments are removed when preceding JSON wrapped in brackets
   or braces.
 
   #+BEGIN_SRC js
-json_partial_valid_with_cpp_comments:
-// this is a c++ style comment {"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
-sanitized:
-{"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
+    json_partial_valid_with_cpp_comments:
+    // this is a c++ style comment {"sensor":gps,test:null,truth:true,method:?,"time":1351824120,"data":[48.756080 2.302038]}
+    sanitized:
+    {"sensor":"gps","test":null,"truth":true,"method":"?","time":1351824120,"data":[48.756080,2.302038]}
   #+END_SRC
 
   C style comments are removed even when preceding unsanitized JSON.
 
   #+BEGIN_SRC js
-json_unsanitized_with_c_comments:
-/* this is a c style comment */ ? test, 1  ??   null true [1,2 3] "nice string" weird_\"string
-sanitized:
-["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
+    json_unsanitized_with_c_comments:
+    /* this is a c style comment */ ? test, 1  ??   null true [1,2 3] "nice string" weird_\"string
+    sanitized:
+      ["?","test",1,"??",null,true,[1,2,3],"nice string","weird_\"string"]
   #+END_SRC
 
 * Library Examples

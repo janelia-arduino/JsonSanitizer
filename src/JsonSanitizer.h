@@ -16,15 +16,15 @@ class JsonSanitizer
 {
 public:
   enum States
-    {
-      OUTSIDE_JSON,
-      INSIDE_FORWARD_SLASH,
-      INSIDE_C_COMMENT,
-      INSIDE_CPP_COMMENT,
-      INSIDE_C_COMMENT_ASTERISK,
-      INSIDE_JSON,
-      INSIDE_UNKNOWN_JSON_STRING,
-    };
+  {
+    OUTSIDE_JSON,
+    INSIDE_FORWARD_SLASH,
+    INSIDE_C_COMMENT,
+    INSIDE_CPP_COMMENT,
+    INSIDE_C_COMMENT_ASTERISK,
+    INSIDE_JSON,
+    INSIDE_UNKNOWN_JSON_STRING,
+  };
   JsonSanitizer();
   void reset();
   template <size_t BUFFER_SIZE>

@@ -11,7 +11,7 @@
 
 template <size_t TOKEN_COUNT_MAX>
 JsonSanitizer<TOKEN_COUNT_MAX>::JsonSanitizer() :
-  jsmn_stream_(tokens_)
+jsmn_stream_(tokens_)
 {
   reset();
 }
@@ -318,9 +318,9 @@ size_t JsonSanitizer<TOKEN_COUNT_MAX>::writeTokensToJson(char *json, char *sourc
   {
     char *primative = source+t->start;
     if ((memcmp(primative,"null",4) == 0) ||
-        (memcmp(primative,"true",4) == 0) ||
-        (memcmp(primative,"false",5) == 0) ||
-        (isNumber(primative[0])))
+      (memcmp(primative,"true",4) == 0) ||
+      (memcmp(primative,"false",5) == 0) ||
+      (isNumber(primative[0])))
     {
       writePrimative(json,source,t);
     }
