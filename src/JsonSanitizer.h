@@ -28,7 +28,8 @@ public:
   JsonSanitizer();
   void reset();
   template <size_t BUFFER_SIZE>
-  void sanitizeCharIntoBuffer(const char c, char (&buffer)[BUFFER_SIZE]);
+  void sanitizeCharIntoBuffer(const char c,
+    char (&buffer)[BUFFER_SIZE]);
   // template <size_t BUFFER_SIZE>
   // void terminateBuffer(char (&buffer)[BUFFER_SIZE]);
   template <size_t BUFFER_SIZE>
@@ -47,11 +48,20 @@ private:
   char *skipSpacesAndComments(char *json);
   char firstChar(char *json);
   bool colonInFirstTwoWords(char* json);
-  bool isInRange(char c, char min, char max);
+  bool isInRange(char c,
+    char min,
+    char max);
   bool isNumber(char c);
-  void writePrimative(char *json, char *source, JsmnStream::jsmntok_t *t);
-  void writeString(char *json, char *source, JsmnStream::jsmntok_t *t);
-  size_t writeTokensToJson(char *json, char *source, JsmnStream::jsmntok_t *t, size_t count);
+  void writePrimative(char *json,
+    char *source,
+    JsmnStream::jsmntok_t *t);
+  void writeString(char *json,
+    char *source,
+    JsmnStream::jsmntok_t *t);
+  size_t writeTokensToJson(char *json,
+    char *source,
+    JsmnStream::jsmntok_t *t,
+    size_t count);
   size_t json_index_;
 };
 #include "JsonSanitizer/JsonSanitizerDefinitions.h"

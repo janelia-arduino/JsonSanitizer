@@ -26,7 +26,8 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::reset()
 
 template <size_t TOKEN_COUNT_MAX>
 template <size_t BUFFER_SIZE>
-void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c, char (&buffer)[BUFFER_SIZE])
+void JsonSanitizer<TOKEN_COUNT_MAX>::sanitizeCharIntoBuffer(const char c,
+  char (&buffer)[BUFFER_SIZE])
 {
   if (buffer_pos_ < (BUFFER_SIZE-1))
   {
@@ -280,7 +281,9 @@ bool JsonSanitizer<TOKEN_COUNT_MAX>::colonInFirstTwoWords(char* json)
 }
 
 template <size_t TOKEN_COUNT_MAX>
-bool JsonSanitizer<TOKEN_COUNT_MAX>::isInRange(char c, char min, char max)
+bool JsonSanitizer<TOKEN_COUNT_MAX>::isInRange(char c,
+  char min,
+  char max)
 {
   return min <= c && c <= max;
 }
@@ -288,11 +291,13 @@ bool JsonSanitizer<TOKEN_COUNT_MAX>::isInRange(char c, char min, char max)
 template <size_t TOKEN_COUNT_MAX>
 bool JsonSanitizer<TOKEN_COUNT_MAX>::isNumber(char c)
 {
-  return isInRange(c, '0', '9') || c == '-' || c == '.';
+  return isInRange(c,'0','9') || c == '-' || c == '.';
 }
 
 template <size_t TOKEN_COUNT_MAX>
-void JsonSanitizer<TOKEN_COUNT_MAX>::writePrimative(char *json, char * source, JsmnStream::jsmntok_t *t)
+void JsonSanitizer<TOKEN_COUNT_MAX>::writePrimative(char *json,
+  char * source,
+  JsmnStream::jsmntok_t *t)
 {
   size_t str_len = t->end - t->start;
   memcpy(json+json_index_,source+t->start,str_len);
@@ -300,7 +305,9 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::writePrimative(char *json, char * source, J
 }
 
 template <size_t TOKEN_COUNT_MAX>
-void JsonSanitizer<TOKEN_COUNT_MAX>::writeString(char *json, char *source, JsmnStream::jsmntok_t *t)
+void JsonSanitizer<TOKEN_COUNT_MAX>::writeString(char *json,
+  char *source,
+  JsmnStream::jsmntok_t *t)
 {
   size_t str_len = t->end - t->start;
   json[json_index_] = '\"';
@@ -310,7 +317,10 @@ void JsonSanitizer<TOKEN_COUNT_MAX>::writeString(char *json, char *source, JsmnS
 }
 
 template <size_t TOKEN_COUNT_MAX>
-size_t JsonSanitizer<TOKEN_COUNT_MAX>::writeTokensToJson(char *json, char *source, JsmnStream::jsmntok_t *t, size_t count)
+size_t JsonSanitizer<TOKEN_COUNT_MAX>::writeTokensToJson(char *json,
+  char *source,
+  JsmnStream::jsmntok_t *t,
+  size_t count)
 {
   int i,j;
   if (count == 0) return 0;
@@ -341,9 +351,9 @@ size_t JsonSanitizer<TOKEN_COUNT_MAX>::writeTokensToJson(char *json, char *sourc
     j = 0;
     for (i = 0; i < t->size; i++)
     {
-      j += writeTokensToJson(json, source, t+1+j, count-j);
+      j += writeTokensToJson(json,source,t+1+j,count-j);
       json[json_index_++] = ':';
-      j += writeTokensToJson(json, source, t+1+j, count-j);
+      j += writeTokensToJson(json,source,t+1+j,count-j);
       json[json_index_++] = ',';
     }
     // Overwrite last comma
@@ -363,7 +373,7 @@ size_t JsonSanitizer<TOKEN_COUNT_MAX>::writeTokensToJson(char *json, char *sourc
     json[json_index_++] = '[';
     for (i = 0; i < t->size; i++)
     {
-      j += writeTokensToJson(json, source, t+1+j, count-j);
+      j += writeTokensToJson(json,source,t+1+j,count-j);
       json[json_index_++] = ',';
     }
     // Overwrite last comma
