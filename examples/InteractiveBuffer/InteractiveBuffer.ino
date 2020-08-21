@@ -36,11 +36,11 @@ void loop() {
     sanitizer.sanitizeBuffer(request);
     Serial << "sanitized:" << endl;
     Serial << request << endl;
-    StaticJsonBuffer<constants::STRING_LENGTH_REQUEST> json_buffer;
     if (sanitizer.firstCharIsValidJsonObject(request))
     {
-      JsonObject& root = json_buffer.parseObject(request);
-      if (root.success())
+      StaticJsonDocument<constants::STRING_LENGTH_REQUEST> json_document;
+      DeserializationError error = deserializeJson(json_document,request);
+      if (!error)
       {
         Serial << "ArduinoJson successfully parsed object!" << endl;
       }
@@ -51,8 +51,9 @@ void loop() {
     }
     if (sanitizer.firstCharIsValidJsonArray(request))
     {
-      JsonArray& root = json_buffer.parseArray(request);
-      if (root.success())
+      StaticJsonDocument<constants::STRING_LENGTH_REQUEST> json_document;
+      DeserializationError error = deserializeJson(json_document,request);
+      if (!error)
       {
         Serial << "ArduinoJson successfully parsed array!" << endl;
       }
