@@ -1,6 +1,6 @@
 #+TITLE: JsonSanitizer
 #+AUTHOR: Peter Polidoro
-#+EMAIL: peterpolidoro@gmail.com
+#+EMAIL: peter@polidoro.io
 
 * Library Information
   - Author :: Peter Polidoro
